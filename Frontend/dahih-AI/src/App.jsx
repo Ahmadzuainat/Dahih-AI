@@ -7,8 +7,9 @@ import Registerpage from './pages/Auth/RegisterPage'
 import NotFound from './pages/NotFoundPage'
 import Dashboradpage from './pages/Dashborad/Dashboradpage'
 import DocumentlistPage from './pages/Documents/DocumentlistPage'
-import ProfilePage from './pages/Profile/ProfilePage'
+import ProfilePage from './pages/Profile/profilePage'
 import DocumentDetailsPage from './pages/Documents/DocumentDetailsPage'
+import ProtectedRoute from './Components/ProtectedRoute'
 // Start App
 function App() {
        const isAuthenticated = false; // Replace with your authentication logic
@@ -30,11 +31,12 @@ const loding = false; // Replace with your loading state logic
       <Route path='/login' element={<Loginpage />} />
       <Route path='/register' element={<Registerpage />} />
       {/* Protected Routes */}
-       <Route element={<ProtectedRoute/>}/>
+       <Route element={<ProtectedRoute isAuthenticated={isAuthenticated} />}>
        <Route path='/dashboard' element={<Dashboradpage />} />
        <Route path="/document" element={<DocumentlistPage />} />
        <Route path="/document/:id" element={<DocumentDetailsPage />} />
        <Route path="/profile" element={<ProfilePage />} />
+       </Route>
       
       
       
