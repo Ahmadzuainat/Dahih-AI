@@ -2,23 +2,27 @@ import React from 'react'
 import { BrowserRouter as Router, Routes, Route , Navigate } from 'react-router-dom'
 
 // import files 
-import Loginpage from './pages/Auth/LoginPage'
-import Registerpage from './pages/Auth/RegisterPage'
-import NotFound from './pages/NotFoundPage'
-import Dashboradpage from './pages/Dashborad/Dashboradpage'
-import DocumentlistPage from './pages/Documents/DocumentlistPage'
-import ProfilePage from './pages/Profile/profilePage'
-import DocumentDetailsPage from './pages/Documents/DocumentDetailsPage'
-import ProtectedRoute from './Components/ProtectedRoute'
+import LoginPage from './pages/Auth/LoginPage'
+import RegisterPage from './pages/Auth/RegisterPage'
+import NotFoundPage from './pages/NotFoundPage'
+import DashboardPage from './pages/Dashboard/DashboardPage'
+import DocumentListPage from './pages/Documents/DocumentListPage'
+import ProfilePage from './pages/Profile/ProfilePage'
+import DocumentDetailPage from './pages/Documents/DocumentDetailsPage'
+import FlashcardsListPage from './pages/Flashcards/FlashcardsListPage'
+import FlashcardPage from './pages/Flashcards/FlashcardsPage'
+import QuizTakePage from './pages/Quizzes/QuizTakePage'
+import QuizResultPage from './pages/Quizzes/QuizResultPage'
+import ProtectedRoute from './Components/auth/ProtectedRoute'
 // Start App
 function App() {
        const isAuthenticated = false; // Replace with your authentication logic
-const loding = false; // Replace with your loading state logic
- if(loding) {
+const loading = false; // Replace with your loading state logic
+ if(loading) {
   return(
     <div className='flex justify-center items-center h-screen'>
         <div className=''>
-          <p>Loding...</p>
+          <p>Loading...</p>
         </div>
     </div>
   )
@@ -28,20 +32,24 @@ const loding = false; // Replace with your loading state logic
     <Router>
       <Routes>
           <Route path='/' element={isAuthenticated ? <Navigate to="/dashboard" replace/> : <Navigate to='/login' replace />} />
-      <Route path='/login' element={<Loginpage />} />
-      <Route path='/register' element={<Registerpage />} />
+      <Route path='/login' element={<LoginPage />} />
+      <Route path='/register' element={<RegisterPage />} />
       {/* Protected Routes */}
-       <Route element={<ProtectedRoute isAuthenticated={isAuthenticated} />}>
-       <Route path='/dashboard' element={<Dashboradpage />} />
-       <Route path="/document" element={<DocumentlistPage />} />
-       <Route path="/document/:id" element={<DocumentDetailsPage />} />
+       <Route element={<ProtectedRoute />}>
+       <Route path='/dashboard' element={<DashboardPage />} />
+       <Route path="/documents" element={<DocumentListPage />} />
+       <Route path="/documents/:id" element={<DocumentDetailPage />} />
+       <Route path="/flashcards" element={<FlashcardsListPage />} />
+       <Route path="/documents/:id/flashcards" element={<FlashcardPage />} />
+       <Route path="/quizzes/:quizId" element={<QuizTakePage />} />
+       <Route path="/quizzes/:quizId/results" element={<QuizResultPage />} />
        <Route path="/profile" element={<ProfilePage />} />
        </Route>
       
       
       
       
-      <Route path="*" element={<NotFound />} />
+      <Route path="*" element={<NotFoundPage />} />
             </Routes>
 
     </Router>

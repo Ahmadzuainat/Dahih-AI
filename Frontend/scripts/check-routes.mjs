@@ -13,11 +13,11 @@ try {
       h(MemoryRouter, { initialEntries: [path] }, h(AppRoutes))))
   }
   const privateRoutes = [
-    ['/dashboard', 'Dashboradpage'],
-    ['/document', 'DocumentlistPage'],
+    ['/dashboard', 'DashboardPage'],
+    ['/document', 'DocumentListPage'],
     ['/document/example', 'DocumentDetailsPage'],
-    ['/profile', 'profilePage'],
-    ['/flashcards', 'FlashcardsListPag'],
+    ['/profile', 'ProfilePage'],
+    ['/flashcards', 'FlashcardsListPage'],
     ['/flashcards/example', 'FlashcardsPage'],
     ['/quizzes/example', 'QuizTakePage'],
     ['/quizzes/example/result', 'QuizResultPage'],
