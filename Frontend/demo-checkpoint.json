@@ -1,0 +1,21 @@
+{
+  "commit": "2409449d23ce9cf95382778f998b739e08819d98",
+  "initialStatus": "clean",
+  "modified": [
+    "src/App.jsx",
+    "vite.config.js",
+    "package.json",
+    "index.html"
+  ],
+  "added": [
+    "demo-checkpoint.json",
+    "DEMO.md",
+    "server/demo-server.mjs",
+    "server/demo-data.mjs",
+    "scripts/start-demo.mjs",
+    "scripts/test-demo.mjs",
+    "src/demo/DemoApp.jsx",
+    "src/demo/demo.css",
+    "src/demo/api.js"
+  ]
+}
