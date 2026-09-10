@@ -6,14 +6,27 @@ import protect from "../middlewares/authMiddleware.js";
 const router = express.Router();
 // validation rules for registration
 const registerValidationRules = [
-    body("username").notEmpty().withMessage("Username is required"),
-    body("email").isEmail().withMessage("Please provide a valid email"),
-    body("password").isLength({ min: 6 }).withMessage("Password must be at least 6 characters long"),
+    body("username")
+        .trim()
+        .isLength({ min: 3 })
+        .withMessage("Username must be at least 3 characters"),
+    body("email")
+        .isEmail()
+        .normalizeEmail()
+        .withMessage("Please provide a valid email"),
+    body("password")
+        .isLength({ min: 6 })
+        .withMessage("Password must be at least 6 characters"),
 ];
 // validation rules for login
 const loginValidationRules = [
-    body("email").isEmail().withMessage("Please provide a valid email"),
-    body("password").notEmpty().withMessage("Password is required"),
+    body("email")
+        .isEmail()
+        .normalizeEmail()
+        .withMessage("Please provide a valid email"),
+    body("password")
+        .notEmpty()
+        .withMessage("Password is required"),
 ];
 // Public routes
 router.post("/register",registerValidationRules,registerUser);
