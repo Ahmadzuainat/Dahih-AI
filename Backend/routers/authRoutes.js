@@ -1,7 +1,13 @@
 import express from "express";
 import {body} from "express-validator";
-import {registerUser, loginUser, getProfile,updateprofile,changepassword} from "../controllers/authController.js";
-import protect from "../middlewares/authMiddleware.js";
+import {
+  register,
+  login,
+  getProfile,
+  updateProfile,
+  changePassword
+} from "../Controllers/authController.js";
+import protect from "../middlewares/auth.js";
 
 const router = express.Router();
 // validation rules for registration
@@ -28,13 +34,20 @@ const loginValidationRules = [
         .notEmpty()
         .withMessage("Password is required"),
 ];
+
+
+
+// THE ROUTES
+
 // Public routes
-router.post("/register",registerValidationRules,registerUser);
-router.post("/login",loginValidationRules,loginUser);
+router.post("/register", registerValidationRules, register);
+router.post("/login", loginValidationRules, login);
 
 // Protected routes
-router.get("/profile",protect,getProfile);
-router.put("/updateprofile",protect,updateprofile);
-router.put("/changepassword",protect,changepassword);
+router.get("/profile", protect, getProfile);
+
+router.put("/profile", protect, updateProfile);
+
+router.put("/change-password", protect, changePassword);
 
 export default router;
