@@ -8,10 +8,15 @@ import { fileURLToPath } from "url";
 
 import connectDB from "./config/db.js";
 import errorHandler from "./middlewares/errorHandler.js";
-import authRoutes from "./routers/authRoutes.js";
 const PORT = process.env.PORT || 5000;
 
 const app = express();
+
+
+// Routes
+import authRoutes from "./routers/authRoutes.js";
+import documentRouter from "./routers/documentRouter.js";
+
 
 // ES6 __dirname alternative
 const __filename = fileURLToPath(import.meta.url);
@@ -48,7 +53,7 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 // ====================
 
 app.use("/api/auth", authRoutes);
-
+app.use("/api/documents", documentRouter);
 
 // ====================
 // 404 Error
