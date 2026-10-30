@@ -1,12 +1,9 @@
-import Document from "../models/Document.js";
-import Flashcard from "../models/Flashcard.js";
-import Quiz from "../models/Quiz.js";
+import Document from "../models/documentModel.js";
+import Flashcard from "../models/flashcardsModel.js";
+import Quiz from "../models/quizModel.js";
 import {extractTextFromPDF} from "../utils/pdfparser.js";
 import {chunkText} from "../utils/textChunker.js";
 import fs from "fs/promises";
-import mongoose from "mongoose";
-import dotenv from "dotenv";
-dotenv.config();
 const PORT = process.env.PORT || 5000;
 
 export const uploadDocument = async (req, res) => {
@@ -53,7 +50,7 @@ export const uploadDocument = async (req, res) => {
 
 
 //helper Function to process the PDf
-processPDF = async (documentId, filePath) => {
+const processPDF = async (documentId, filePath) => {
   try {
     // Extract text from the PDF
     const { text } = await extractTextFromPDF(filePath);
@@ -78,6 +75,8 @@ export const getAllDocuments = async (req, res) => {
   try {
     const documents = await Document.find();
     res.status(200).json(documents);
+
+   
   }catch (error) {
     next(error); // Pass the error to the global error handler
   }
