@@ -5,15 +5,15 @@ import {
     getAllDocuments,
     getDocumentById,
     deleteDocument
-} from "../controllers/documentController.js";
+} from "../Controllers/documentController.js";
 
 import protect from "../middlewares/auth.js";
 const router = express.Router();
 
 // Routes for document management
-router.post("/upload",upload.single('file'), protect, uploadDocument);
+router.post("/upload", protect, upload.single('file'), uploadDocument);
 router.get("/", protect, getAllDocuments);
 router.get("/:id", protect, getDocumentById);
- router.delete("/:id", protect, deleteDocument);
+router.delete("/:id", protect, deleteDocument);
 
 export default router;

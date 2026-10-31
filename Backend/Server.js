@@ -55,7 +55,8 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 app.use("/api/auth", authRoutes);
 app.use("/api/documents", documentRouter);
-app.use("/api/flashcard",FlashcardRouter)
+app.use("/api/flashcards", FlashcardRouter);
+app.use("/api/flashcard", FlashcardRouter);
 
 // ====================
 // 404 Error
