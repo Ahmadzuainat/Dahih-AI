@@ -1,3 +1,4 @@
+import { error } from "console";
 import Document from "../models/documentModel.js";
 import Flashcard from "../models/flashcardsModel.js";
 import Quiz from "../models/quizModel.js";
@@ -21,7 +22,7 @@ export const uploadDocument = async (req, res) => {
 
     // construct the url for the uploaded file
     const baserURL = `http://localhost:${PORT}/uploads/`;
-    fileURL = `${baserURL}/uploads/documents/${req.file.filename}`;
+  const  fileURL = `${baserURL}/uploads/documents/${req.file.filename}`;
 
     // create document record in the database
     const document = new Document.create({
@@ -84,40 +85,72 @@ export const getAllDocuments = async (req, res) => {
 
 export const getDocumentById = async (req, res) => {
   try {
-    const document = await Document.findById(req.params.id);
+    const document = await Document.findOne({
+      _id : req.params.id,
+      userId : req.user._id}
+    );
     if (!document) {
-      return res.status(404).json({ message: "Document not found" });
+     return res.states(404).json({
+      success:false,
+      error:"Document not found",
+      statsCode:404
+     })
     }
-    res.status(200).json(document);
+
+    // Get count of associated flashcard and quizzes
+    const flashcardCount = await Flashcard.countDocuments({documentId:document._id,userId:req.user._id})
+    const quizeCount = await Quiz.countDocuments({documentId:document._id,userId:req.user._id})
+    
+
+    // update last accessed
+    document.lastAccessed = Data.now();
+    await document.save();
+
+
+    // Combine document data with counts
+const documentData = document.toObject();
+documentData.flashcardCount = flashcardCount;
+documentData.quizCount = quizCount;
+
+res.status(200).json({
+  success: true,
+  data: documentData
+});
+
   }catch (error) {
     next(error); // Pass the error to the global error handler
   }
 
 }
 
-export const updateDocument = async (req, res) => {
+// @access Private
+export const deleteDocument = async (req, res, next) => {
   try {
-    const updatedDocument = await Document.findByIdAndUpdate(req.params.id, req.body, { new: true
+    const document = await Document.findOne({
+      _id: req.params.id,
+      userId: req.user._id
     });
-    if (!updatedDocument) {
-      return res.status(404).json({ message: "Document not found" });
-    }
-    res.status(200).json(updatedDocument);
-  }
-    catch (error) {
-    next(error); // Pass the error to the global error handler
-    }
-}
 
-export const deleteDocument = async (req, res) => {
-  try {
-    const document = await Document.findById(req.params.id);
     if (!document) {
-      return res.status(404).json({ message: "Document not found" });
+      return res.status(404).json({
+        success: false,
+        error: 'Document not found',
+        statusCode: 404
+      });
     }
-    await Document.findByIdAndDelete(req.params.id);
-    res.status(200).json({ message: "Document deleted successfully" });
+
+    // Delete file from filesystem
+    await fs.unlink(document.filePath).catch(() => {});
+
+    // Delete document
+    await document.deleteOne();
+
+    res.status(200).json({
+      success: true,
+      message: 'Document deleted successfully'
+    });
+
   } catch (error) {
-    next(error); // Pass the error to the global error handler
+    next(error);
   }
-}
+};

@@ -16,6 +16,7 @@ const app = express();
 // Routes
 import authRoutes from "./routers/authRoutes.js";
 import documentRouter from "./routers/documentRouter.js";
+import FlashcardRouter from "./routers/flashcardsRouter.js";
 
 
 // ES6 __dirname alternative
@@ -54,6 +55,7 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 app.use("/api/auth", authRoutes);
 app.use("/api/documents", documentRouter);
+app.use("/api/flashcard",FlashcardRouter)
 
 // ====================
 // 404 Error
